@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
+axios.defaults.withCredentials = true;
 
 function Login() {
     const [form, setForm] = useState({
@@ -18,7 +19,8 @@ function Login() {
         e.preventDefault()
         try {
             const res = await axios.post('http://localhost:3000/api/auth/login', form)
-            localStorage.setItem('token', res.data.token)
+            console.log('res', res)
+            // localStorage.setItem('token', res.data.token)
             alert('Connexion réussie')
             navigate('/profile')
         } catch (error) {

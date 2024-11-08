@@ -1,26 +1,28 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
+axios.defaults.withCredentials = true;
+
 
 function Profil() {
     const [user, setUser] = useState(null)
     const navigate = useNavigate()
 
     useEffect(() => {
-        const token = localStorage.getItem('token')
+        //JWT//
 
-        if (!token) {
-            navigate('/login')
-            return
-        }
+        // const token = localStorage.getItem('token')
 
+        // if (!token) {
+        //     navigate('/login')
+        //     return
+        // }
+
+
+        //SESSION//
         const fetchUser = async () => {
             try {
-                const res = await axios.get('http://localhost:3000/api/users/me', {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                })
+                const res = await axios.get('http://localhost:3000/api/users/me')
                 setUser(res.data)
             } catch (error) {
                 console.log(error)
@@ -31,8 +33,9 @@ function Profil() {
         fetchUser()
     }, [navigate])
 
-    const handleLogout = () => {
-        localStorage.removeItem('token')
+    const handleLogout = async () => {
+        // localStorage.removeItem('token')
+        const res = await axios.delete('http://localhost:3000/api/auth/logout')
         navigate('/login')
     }
 
